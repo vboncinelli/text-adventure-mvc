@@ -1,4 +1,4 @@
-﻿using text_adventure.mvc.Models;
+﻿using text_adventure.dto;
 
 namespace text_adventure.mvc.Services
 {
@@ -6,7 +6,7 @@ namespace text_adventure.mvc.Services
     {
         GameState LoadGameState();
 
-        string ProcessPlayerCommand(string v, GameState gameState);
+        string ProcessPlayerCommand(string command, GameState gameState);
 
         void SaveGameState(GameState gameState);
     }

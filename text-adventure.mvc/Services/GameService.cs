@@ -1,22 +1,25 @@
 ﻿using System.Text.Json;
-using text_adventure.mvc.Models;
+using text_adventure.dto;
+using text_adventure_repository;
 
 namespace text_adventure.mvc.Services
 {
     public class GameService : IGameService
     {
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IGameRepository _gameRepository;
 
-        public GameService(IHttpContextAccessor contextAccessor)
+        public GameService(IHttpContextAccessor contextAccessor, IGameRepository repository)
         {
             _contextAccessor = contextAccessor;
+            _gameRepository = repository;
         }
 
         public GameState LoadGameState()
         {
             var request = _contextAccessor.HttpContext?.Request;
 
-            var gameState = new GameState();
+            var gameState = _gameRepository.GetGameState();
 
             // Load current room from cookies
             var currentRoom = request?.Cookies["CurrentRoom"];
@@ -46,24 +49,33 @@ namespace text_adventure.mvc.Services
                 return gameState.Inventory.Count > 0 ? $"Inventory: {string.Join(", ", gameState.Inventory)}" : "Your inventory is empty.";
             }
 
-            if (command == "look")
+            if (command == "look around")
             {
-                string itemDescription = room.Items.Count > 0 ? $"You see: {string.Join(", ", room.Items)}." : "There is nothing of interest here.";
+                return room.Items.Count > 0 ? $"You see: {string.Join(", ", room.Items)}." : "There is nothing of interest here.";
+            }
+
+            if (command == "show exits")
+            {
                 var exits = room.Commands
-                                .Where(cmd => cmd.Key.StartsWith("go "))
-                                .Select(cmd => cmd.Key.Split(" ")[1])
-                                .ToList();
+                .Where(cmd => cmd.Key.StartsWith("go "))
+                .Select(cmd => cmd.Key.Split(" ")[1])
+                .ToList();
+
                 string exitDescription = exits.Count > 0 ? $"Exits: {string.Join(", ", exits)}." : "There are no visible exits here.";
-                return $"{itemDescription} {exitDescription}";
+
+                return exitDescription;
             }
 
             if (command.StartsWith("take"))
             {
                 var item = command.Substring(5);
+
                 if (room.Items.Contains(item))
                 {
                     gameState.Inventory.Add(item);
+
                     room.Items.Remove(item);
+
                     return $"You take the {item}.";
                 }
                 return $"There is no {item} here.";
@@ -72,10 +84,13 @@ namespace text_adventure.mvc.Services
             if (command.StartsWith("drop"))
             {
                 var item = command.Substring(5);
+
                 if (gameState.Inventory.Contains(item))
                 {
                     gameState.Inventory.Remove(item);
+
                     room.Items.Add(item);
+
                     return $"You drop the {item}.";
                 }
                 return $"You don't have a {item}.";
@@ -91,6 +106,7 @@ namespace text_adventure.mvc.Services
                 if (gameState.Rooms.ContainsKey(result))
                 {
                     gameState.CurrentRoom = result;
+
                     return gameState.Rooms[result].Description;
                 }
                 return result;

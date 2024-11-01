@@ -1,0 +1,86 @@
+{
+  "Rooms": [
+    {
+
+      "Name": "Start Room",
+      "Description": "You are in a small, dimly lit room. There’s a door to the north.",
+      "Commands": [
+        {
+          "key": "go north",
+          "value": "hall"
+        }
+      ],
+      "Items": [ "key" ]
+    },
+    {
+      "Name": "Hall",
+      "Description": "You are in a grand hallway with doors to the east, west, and south.",
+      "Commands": [
+        {
+          "key": "go east",
+          "value": "library"
+        },
+        {
+          "key": "go west",
+          "value": "kitchen"
+        },
+        {
+          "key": "go south",
+          "value": "start"
+        }
+      ]
+    },
+    {
+      "Name": "Library",
+      "Description": "The library is filled with ancient books. A stick rests on a high shelf.",
+      "Commands": [
+        {
+          "key": "go west",
+          "value": "hall"
+        }
+      ],
+      "Items": [ "stick" ]
+    },
+    {
+      "Name": "Kitchen",
+      "Description": "The kitchen smells of stale food. There's a locked door to the cellar to the south.",
+      "Commands": [
+        {
+          "key": "go east",
+          "value": "hall"
+        }
+      ],
+      "Items": [ "apple" ],
+      "RoomActions": [
+        {
+          "key": "use key",
+          "message": "You unlock the door to the cellar.",
+          "command": {
+            "key": "go south",
+            "value": "cellar"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "garden",
+      "Description": "The garden has an apple tree at its center. There is something hanging from a branch.",
+      "Commands": [
+        {
+          "key": "go east",
+          "value": "hall"
+        }
+      ],
+      "RoomActions": [
+        {
+          "key": "use stick",
+          "message": "Using the stick, you retrieve a golden ring from the tree.",
+          "command": {
+            "key": "go out",
+            "value": "end"
+          }
+        }
+      ]
+    }
+  ]
+}

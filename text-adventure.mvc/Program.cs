@@ -1,10 +1,12 @@
 using text_adventure.mvc.Services;
+using text_adventure_repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
+builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 
 builder.Services.AddControllersWithViews();

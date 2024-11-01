@@ -7,4 +7,9 @@
     <RootNamespace>text_adventure.mvc</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\text-adventure-repository\text-adventure-repository.csproj" />
+    <ProjectReference Include="..\text-adventure.dto\text-adventure.dto.csproj" />
+  </ItemGroup>
+
 </Project>

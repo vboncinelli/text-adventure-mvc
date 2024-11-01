@@ -1,4 +1,4 @@
-namespace text_adventure.mvc.Models;
+namespace text_adventure.dto;
 
 public class Room
 {
