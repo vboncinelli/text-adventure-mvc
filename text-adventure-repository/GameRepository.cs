@@ -19,7 +19,7 @@ namespace text_adventure_repository
 
             string json = File.ReadAllText(filePath);
 
-            return JsonSerializer.Deserialize<GameState>(json) ?? throw new Exception("unable to load the state of the game");
+            return JsonSerializer.Deserialize<GameState>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new Exception("unable to load the state of the game");
         }
     }
 }

@@ -96,9 +96,19 @@ namespace text_adventure.mvc.Services
                 return $"You don't have a {item}.";
             }
 
-            if (room.RoomActions.TryGetValue(command, out var action))
+            var roomAction = room.RoomActions.Find(e => e.Action == command);
+
+            if (roomAction is not null)
             {
-                return action();
+                if (string.IsNullOrEmpty(roomAction.Require) || gameState.Inventory.Contains(roomAction.Require))
+                {
+                    foreach (var cmd in roomAction.Commands)
+                        room.Commands.Add(cmd.Key, cmd.Value);
+
+                    return roomAction.Message;
+                }
+                else
+                    return $"You need a {roomAction.Require}";
             }
 
             if (room.Commands.TryGetValue(command, out var result))

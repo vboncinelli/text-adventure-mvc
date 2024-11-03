@@ -8,7 +8,7 @@ public class Room
 
     public Dictionary<string, string> Commands { get; set; } = [];
 
-    public Dictionary<string, Func<string>> RoomActions { get; set; } = [];
+    public List<RoomAction> RoomActions { get; set; } = [];
 
     public List<string> Items { get; set; } = [];
 }

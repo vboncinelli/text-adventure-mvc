@@ -6,11 +6,10 @@ namespace text_adventure.dto
 
         public List<string> Inventory { get;  set; } = [];
 
-        public Dictionary<string, Room> Rooms { get; init; }
-        
-        public GameState(Dictionary<string, Room> rooms)
+        public Dictionary<string, Room> Rooms { get; set; } = [];
+
+        public GameState()
         {
-            Rooms = rooms;
         }
     }
 }
