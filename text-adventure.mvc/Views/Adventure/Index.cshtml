@@ -1,14 +1,14 @@
 @model text_adventure.mvc.Models.GameState
 @{
     ViewData["Title"] = "ASCII Adventure Game";
-    var currentRoomName = Model.Rooms[Model.CurrentRoom].Name;
 }
 
 
 <div id="game-container">
     <h2>ASCII Adventure Game</h2>
     <div id="game-output">
-        <p>@currentRoomName</p>
+        <p><strong>@Model.Rooms[Model.CurrentRoom].Name</strong></p>
+        <p>@Model.Rooms[Model.CurrentRoom].Description</p>
         @if (ViewBag.Output != null)
         {
             <p>@ViewBag.Output</p>
